@@ -36,6 +36,10 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ['user', 'menuitem', 'quantity', 'unit_price', 'price','menuitem_title']
         read_only_fields = ['user', 'menuitem', 'unit_price', 'price']
+        extra_kwargs = {
+            'price':{'min_value':0},
+            'quantity':{'min_value':1}
+        }
     def create(self, validated_data):
         menuitem_title = validated_data.pop('menuitem_title', None)
         menu_item = MenuItem.objects.get(title=menuitem_title)
